@@ -1,0 +1,20 @@
+version: '1.0'
+steps:
+  clone:
+    title: Cloning repository
+    type: git-clone
+    repo: 'https://github.com/titukhan2000/SampleCore5'
+    revision: main
+    stage: clone
+  build_my_app:
+    title: Net5 Image
+    type: build
+    stage: build
+    image_name: CCountNet
+    working_directory: '${{clone}}'
+    tag: master
+    disable_push: true
+    dockerfile: Dockerfile  
+stages:
+  - clone
+  - build
