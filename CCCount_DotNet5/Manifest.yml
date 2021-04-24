@@ -1,0 +1,5 @@
+---
+applications:
+- name: CCCount5
+dotnet-runtime
+  version: 5.0.0

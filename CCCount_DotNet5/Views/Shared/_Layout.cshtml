@@ -1,0 +1,94 @@
+﻿@using CCCount.Models
+
+@model ICCCountUI
+
+@{
+    ViewData["Title"] = "Setup";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <title>@ViewData["Title"] - CCCount</title>
+        
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet"  href="~/css/ea_style.css"/>
+    </environment>
+    <environment names="QA,Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/ea_style.css" />
+    </environment>
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div>
+                <table>
+                    <tr>
+                        <td>
+                            <img src="~/Images/Pete Logo.png" class="peteLogo" />
+                            <a asp-area="" asp-controller="Home" class="globalomnilogo" asp-action="Index">Global Omni CC Count</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="navbar-header">
+            </div>
+        </div>
+    </div>
+
+    <div class="body-content">
+            @RenderBody()
+            <hr />
+            <footer class="copyright">
+                <label>&copy; 2017 - Gap Inc.</label>
+                <environment names="Development">
+                    <label  class="ProjectVersion panel-footer pull-right" style="color:red; background-color:white;">V. @Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationVersion</label>
+                    <label id="DrillDown" class="ProjectVersion panel-footer pull-right" style="color:red; background-color:white;" ></label>
+                </environment>
+                <environment names="QA,Staging">
+                    <label class="ProjectVersion panel-footer pull-right" style="color:orange; background-color:white;">V. @Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationVersion</label>
+                    <label id="DrillDown" class="ProjectVersion panel-footer pull-right" style="color:red; background-color:white;display:none;"></label>
+                </environment>
+                <environment names="Production">
+                    <label class="ProjectVersion panel-footer pull-right" style="color:black;background-color:white;">V. @Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationVersion</label>
+                    <label id="DrillDown" class="ProjectVersion panel-footer pull-right" style="color:red; background-color:white;display:none;"></label>
+                </environment>
+            </footer>
+        </div>
+        
+    
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="QA,Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+        <script src="~/js/site.min.js"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

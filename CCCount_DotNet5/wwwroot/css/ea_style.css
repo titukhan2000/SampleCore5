@@ -1,0 +1,617 @@
+﻿
+/*Changeset  Mike Gallucci  4/27/2017  10:15 AM*/
+body {
+    /* Follow Gap style guide */
+    font-family: 'Roboto';
+    background-color: #FFFFFF;
+    padding-top: 100px;
+    padding-bottom: 20px;
+    width: 100%;
+    margin-left: 0px;
+}
+
+.body-content {
+    padding-left: 50px;
+    padding-right: 15px;
+    width: 100%;
+   
+}
+
+.drilldownBox{
+    padding-left:15px;
+}
+
+.peteLogo {
+    height:60px!important;
+    padding-right:5px;
+     margin-left:-4px;
+     padding-top:10px;
+}
+
+.globalomnilogo{
+    color:white;
+    padding-top:10px;
+    padding-left:10px;
+    vertical-align:-webkit-baseline-middle;
+}
+
+div.navbar.navbar-default.navbar-fixed-top {
+    width: 100%;
+    height: 73px !important;
+    font-family: 'Roboto' !important;
+    font-size: 19.8px !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-stretch: normal !important;
+    line-height: normal !important;
+    letter-spacing: 0.6px !important;
+    text-align: left !important;
+    color: #ffffff !important;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 970px;
+    }
+}
+
+.container-non-responsive {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 1170px;
+}
+
+/*Global omni cc count TITLE*/
+.navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+    margin-left: 0px;
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+.navbar-toggle {
+    margin-left: -15px;
+}
+
+.GapTitle {
+    vertical-align: top;
+    width: 200px;
+    height: 50px;
+    font-family: 'Times New Roman';
+    font-size: 40px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.6px;
+    text-align: left;
+    color: #ffffff;
+    margin-left: 1120px;
+    position: relative;
+    bottom: 35px;
+    margin-top: 45px;
+}
+
+/* Main form */
+.form-main {
+    width: 90%;
+}
+
+
+.selectbrandcol {
+    margin-right: -300px;
+}
+
+selectmarketcol {
+    margin-right: -100px;
+}
+
+selectchannelcol {
+    margin-left: -300px;
+}
+
+
+.bluepanel.row {
+    background-color: #FFFFFF;
+}
+
+.panel {
+    background-color: #FFFFFF;
+}
+
+.yeardate {
+    height: 30px;
+}
+
+h3, .h3 {
+    /*STEP1,2,3 etc*/
+    font-size: 24px;
+    padding-left: 0px;
+    margin-left: -25px;
+    margin-top: 0px;
+    width: 1224px;
+    height: 54.3px;
+    /*background-color: #333333;*/
+    /*color:white;*/
+}
+
+select[multiple],
+select[size] {
+    height: inherit;
+}
+
+h4 {
+    /*Titles*/
+    font-family: 'Roboto';
+    font-size: 18px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #1084c3;
+}
+
+table {
+    margin-left: 15px;
+}
+
+.allcheckbox{
+    margin-top:10px;
+}
+Label {
+    /*font when choosing display options(Style/StyleColor) Darker Font*/
+    font-family: 'Roboto';
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: condensed;
+    line-height: normal;
+    letter-spacing: 0px;
+    color: #585858;
+    margin-bottom: 0px;
+}
+
+div.navbar {
+    height: 100px;
+}
+
+input#Markets_0__Checked, input#Markets_1__Checked, input#Markets_2__Checked, input#Markets_3__Checked, input#Markets_4__Checked, input#marketsAll, Brands_0__Markets_0__Checked {
+    /*CheckBox margin*/
+    margin-left: 25px;
+    box-sizing: content-box;
+    width: 32px;
+    height: 32px;
+}
+
+
+
+input#SelectedChannelId {
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+
+select {
+    /*.select-boxScroll*/
+    width: 331px;
+    height: 120px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: solid 1.5px #656565;
+    /*SCROLLBARIF NECESSARY*/
+    float: left;
+    /*max-height: 135px;*/
+    overflow-y: auto;
+}
+
+
+
+.selectbrand-box {
+    width: 100%;
+    height: 178px !important;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: solid 1.5px #656565;
+    font-family: 'Roboto';
+    font-size: 16px;
+}
+
+.font-sizer {
+    font-family: 'Roboto';
+    font-size: 16px;
+}
+
+/*select option:checked {
+   
+    background-color:#38c36a;
+}*/
+/*.select-attributes-title {
+    margin-left: 0px;
+}*/
+
+.col-xs-6 {
+    margin-left: -15px !important;
+}
+
+/*Background for select checkboxs*/
+.select-background {
+    width: 100%;
+    height: 178px; /* :-) */
+    background-color: #EFEFED;
+    border-radius: 5px;
+    border: solid 1.5px #656565;
+}
+
+
+.select-background-Channels {
+    margin-left: 550px;
+    width: 231px !important;
+}
+
+/*splitting check box's two columns*/
+.seperatecheck {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.select-background-StartingDate {
+    width: 265px;
+    height: 73px;
+    background-color: #EFEFED;
+    border-radius: 5px;
+    border: solid 1.5px #656565;
+}
+
+
+input[type="checkbox"] {
+    margin: 4px 0 0;
+    /*margin-top: 1px \9;*/
+    height: 16px;
+    width: 16px;
+}
+
+input[type="radio"]{
+    height: 14px;
+    width: 14px;
+}
+
+
+.select-background-Attributes {
+    width: 265px;
+    height: 235px;
+    border-radius: 5px;
+    background-color: #EFEFED;
+    /*margin-left:-15px;*/
+    border: solid 1.5px #656565;
+}
+.timeonofferrank{
+padding-top:110px;
+padding-left:30px;
+}
+
+select#SelectedDivisionIds.form-control, select#SelectedDepartmentIds.form-control, select#SelectedClassIds.form-control, select#SelectedSubClassIds.form-control {
+    /*width: 400px;*/
+    /*height: 140px !important;*/
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: solid 1.5px #656565;
+}
+
+
+select#SelectedStartDateYearId, select#SelectedStartDateMonthId {
+    /*SELECT STARTING DATE */
+    width: 110px;
+    height: 38px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: solid 1.5px #d0d0d0;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 15px;
+    margin-left: -8px;
+    border: solid 1.5px #656565;
+    text-align: center;
+    text-align-last: center;
+}
+
+
+.labelpadding{
+    padding-top:5px;
+    margin-left:-5px;
+}
+.col-xs-4 {
+    width: 50%;
+    margin-left: -3px;
+}
+
+select#SelectedStartDateMonthId.form-control {
+    margin-right: 15px;
+}
+
+.monthpadding{
+    padding-left:15px;
+}
+
+.select#SelectedStartDateMonthId {
+    width: 180px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: solid 1.5px #d0d0d0;
+    text-align: right;
+    font-size: 26px;
+    margin-top: 30px;
+    margin-left: 55px;
+    border: solid 1.5px #656565;
+}
+
+/*ALL/NONE button size*/
+a#divisionsAll, a#divisionsNone, a#departmentsAll, a#departmentsNone, a#classesAll, a#classesNone {
+    font-family: 'Roboto';
+    font-size: 12px;
+}
+
+/*TWO ATTRIBUTE BUTTONS*/
+select#SelectedAttributeId1, select#SelectedAttributeId2 {
+    width: 230px;
+    height: 38px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: solid 1px #d0d0d0;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.col-md-2.yeardate {
+    margin-left: -20px;
+    margin-top: 20px;
+}
+
+.col-md-2.monthdate {
+    margin-left: 50px;
+    margin-top: 20px;
+}
+/*Moving around Attributes box's*/
+.select-attribute1 {
+    margin-left: 4px;
+    margin-top: 16px;
+}
+
+.select-attribute2 {
+    margin-left: 4px;
+    margin-top: -70px;
+}
+
+
+
+/*
+.finish-button{
+    margin-left:-785px;
+    margin-top:110px;
+}
+    */
+.copyright {
+    margin-left: 0px;
+}
+
+
+.buttonrow {
+    margin-left: 250px;
+}
+
+
+
+
+
+/*select option:checked {
+    background-color: #38c36a;
+    color: #38c36a;
+}*/
+
+
+button.btn.btn-primary.pull-right {
+    margin-top: 220px;
+    width: 110px;
+    height: 30px;
+    background-color: #14B152;
+    background-image: none;
+    border-radius: 3px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: condensed;
+    line-height: normal;
+    letter-spacing: 0px;
+    text-align: center;
+    font-size: 12px;
+    font-family: Roboto;
+    color: #ffffff;
+    /*margin-top: -100px;
+    margin-left: 1135px;*/
+    /*position:absolute;*/
+}
+
+select:-internal-list-box option:checked{
+    color:black!important;
+}
+
+option{
+    color:black!important;
+}
+
+.ProjectVersion{
+    /*margin-left:1060px;
+    margin-bottom:100px;
+    
+  white-space: nowrap;*/
+}
+
+select option:hover,
+option:hover select option:focus,
+select option:active,
+select option:checked,
+select option:focus, 
+option:hover
+ {
+    background: linear-gradient(#E2F2FD,#E2F2FD);
+    background-color: #E2F2FD !important; /* for IE */
+    color:#000000!important;
+}
+
+
+/*.form-control:focus {
+  border-color: #FF0000;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+  color:BLACK!important;
+}*/
+
+
+dropdown-menu > li > a:hover {
+    background-color: red;
+    background-image: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #ff0000;
+}
+
+.btn-group.open .dropdown-toggle {
+    box-shadow: 0 1px 1px red inset, 0 0 8px red;
+}
+
+/* Validation */
+label.error {
+    color: #f22b2d;
+    float: left;
+    background-image: url('../images/indicator 1x.png');
+    background-repeat: no-repeat;
+    background-size: 15px;
+    padding-left: 22px;
+    background-position-y:bottom;
+    background-position-x: 3px;
+  
+}
+
+select.error, div.error {
+    /*border: 2px solid #ff0000 !important;*/
+
+    border-color: #f22b2d;
+  /*box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);*/
+}
+
+label.markets-error {
+    color: #f22b2d;
+    display: inline-block;
+}
+
+label.markets-valid {
+    display: none;
+}
+img.marketchangeindicator-none {
+    display:none;
+}
+img.marketchangeindicator {
+    display: inline;
+    height:15px;
+
+}
+
+/* Submit form response alerts */
+.alert {
+    position: fixed;
+    bottom: 0px;
+    width: 1200px;
+}
+
+        /*.alert-success {
+            color:white;
+            background-color:#04b411;
+            border-color:#04b411;
+            font-size: 15px;
+
+        }
+        .alert-danger {
+            color:white;
+            background-color:#FF0000;
+            border-color:#FF0000;
+            font-size: 15px;
+
+        }*/
+
+        .close{
+                    text-shadow:none;
+                    opacity:1;
+                }
+
+        .alert-info {
+            color: #fff;
+            background-color: #0086d4;
+            border-color: #0086d4;
+            font-family: Roboto;
+            font-size: 16px;
+            line-height: 1.25;
+            letter-spacing: 0px;
+            text-align: left;
+            color: #ffffff;
+            font-weight: normal;
+            padding-left: 60px;
+            background-position: 10px 6px;
+            background-image: url('../images/infoimg.png');
+            background-repeat: no-repeat;
+            /*background-size:30px;*/
+        }
+
+.alert-success {
+    background-color: #14b152;
+    border-color: #14b152;
+    font-family: Roboto;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: 0px;
+    text-align: left;
+    color: #ffffff;
+    font-weight: normal;
+    padding-left: 60px;
+    background-position: 10px 6px;
+    background-image: url('../images/thumbs up.png');
+    background-repeat: no-repeat;
+}
+
+
+.alert-danger {
+    font-family: Roboto;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: 0px;
+    text-align: left;
+    color: #ffffff;
+    background-color: #f22b2d;
+    border-color: #f22b2d;
+    font-size: 15px;
+    font-weight: normal;
+    padding-left: 60px;
+    background-position: 10px 4px;
+    background-image: url('../images/errorimg.png');
+    background-repeat: no-repeat;
+}
+
+
+
+
+/* Busy Indicator */
+#busy-overlay {
+    background-color: #333;
+    opacity: 0.8;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 100;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-image: url('/images/ajax-loader.gif');
+    background-position: center;
+    background-repeat: no-repeat;
+}

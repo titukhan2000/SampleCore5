@@ -1,0 +1,4 @@
+dotnet-core:
+  sdk: 5.0.100
+dotnet-runtime:
+  runtime: 5.0.0

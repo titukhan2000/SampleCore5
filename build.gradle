@@ -1,0 +1,113 @@
+import com.ullink.Msbuild
+group = 'com.gap.assortmentools'
+version = System.getenv('BUILD_NUMBER') ? System.getenv('BUILD_NUMBER') : "local"
+
+apply plugin: 'base'
+apply plugin: 'gappipeline'
+
+buildscript {
+    repositories {
+	mavenCentral()
+        maven {
+            url 'https://gapinc.jfrog.io/gapinc/maven-repos'
+			credentials {
+                username 's-sell-onesit'
+                password 'AKCp5ekHjmzbqspi53QPtQAsHDoAnJPeqiifRhu88wqFgyVQiDZ8962WVwZHTmxaawmExa4w2'
+            }
+        }
+        ivy {
+            layout 'maven'
+            url 'https://gapinc.jfrog.io/gapinc/maven-repos'
+			credentials {
+                username 's-sell-onesit'
+                password 'AKCp5ekHjmzbqspi53QPtQAsHDoAnJPeqiifRhu88wqFgyVQiDZ8962WVwZHTmxaawmExa4w2'
+            }
+        }
+	
+    }
+    dependencies{
+        classpath 'com.gap:gap-gradle-plugin:2.0.0.1234'
+	classpath 'com.ullink.gradle:gradle-msbuild-plugin:2.18'
+    }
+}
+
+apply plugin:'com.ullink.msbuild'
+
+task mybuild(type: com.ullink.Msbuild) {
+msbuild{
+solutionFile = file("${project.projectDir}/CCCount_DotNet5.sln")
+println "${project.projectDir}"
+targets = ['Clean', 'Rebuild']
+projectName = 'CCountService'
+}
+}
+
+task zipDll(type: Zip){
+          println 'from build.gradle'
+	  println "${project.projectDir}"
+          baseName = 'CCCountartifact'
+          from ("${project.projectDir}/CCCount_DotNet5")
+          includeEmptyDirs = false 
+	  exclude "**/*.lock"
+	  exclude "**/*.zip"
+	  include '**/*'
+	  
+	/*  println 'from build.gradle zip DLL'
+	  println "${project.projectDir}"	 
+          baseName = 'CCCountartifact'
+	  ant.zip(destfile:baseName) {
+            fileset(dir: './CCCount_DotNet5') {
+                include(name: '**.*')
+                exclude(name: '**.lock')
+		exclude(name: '**.zip')
+            }
+	    }*/
+	  
+	  
+	  //ant.move file: "CCCountartifact-"+version+".zip",
+          //todir: "build/distributions"
+	  
+	/*  def path = ant.path {
+            fileset(dir: version, includes: '*.*')
+        }
+        path.list().each {
+            println "welcome--"+it
+        }*/
+	  
+	  
+}
+
+configurations {
+    artifacts
+    archivesForJenkins.extendsFrom archives
+}
+
+artifacts {
+    archives zipDll
+}
+
+uploadArchives {
+    repositories{
+        add project.repositories.wm_local_non_prod
+    }
+}
+
+uploadArchivesForJenkins {
+    repositories {
+        ivy {
+            layout "maven"
+            url "https://gapinc.jfrog.io/gapinc/maven-repos"
+            credentials {
+                username 's-sell-onesit'
+                password 'AKCp5ekHjmzbqspi53QPtQAsHDoAnJPeqiifRhu88wqFgyVQiDZ8962WVwZHTmxaawmExa4w2'
+            }
+        }
+    }
+}
+
+
+task wrapper (type: Wrapper) {
+    gradleVersion = 2.4
+}
+
+

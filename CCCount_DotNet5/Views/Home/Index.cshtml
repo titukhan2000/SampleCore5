@@ -1,0 +1,430 @@
+﻿@using CCCount.Models
+
+@model ICCCountUI
+
+@{
+    ViewData["Title"] = "Setup";
+}
+
+    <form id="ccCountForm" asp-controller="Home" asp-action="Index" asp-antiforgery="true"
+          data-ajax="true" data-ajax-complete="formAjaxComplete" data-ajax-begin="formAjaxBegin"
+          data-ajax-success="formAjaxSuccess" data-ajax-failure="formAjaxFailure" class="form-main">
+
+
+        <div>
+            <button class="btn btn-primary pull-left" id="btnSubmit" type="submit">Generate Report</button>
+            <div id="alertsContainer"></div>
+
+        </div>
+
+
+        @*<environment names="Development">
+            <p>
+                Development only:
+                <a asp-controller="Home" asp-action="ClientInfo">View client system information</a> |
+                Connection ID: @Model.ConnectionId
+            </p>
+        </environment>*@
+
+        <!-- Model properties for use in js -->
+        @*<input type="hidden" asp-for="@Model.ConnectionId" />*@
+        @*<input type="hidden" asp-for="@Model.GuidSQL" />*@
+        @*<input type="hidden" asp-for="@Model.UserID" />*@
+        @*<input type="hidden" asp-for="@Model.SelectedBrandIndex" />
+        <input type="hidden" asp-for="@Model.SelectedBrandName" />*@
+        <input type="hidden" asp-for="@Model.ErrorCode" />
+        <input type="hidden" asp-for="@Model.ErrorMessage" />
+        @*<input type="hidden" asp-for="@Model.IncludeDrilldown" />*@
+
+        @*<input type="hidden" id="merchHierarchy" name="merchHierarchy"
+        value="@ViewData["MerchHierarchy"]" />*@
+
+        @*<input type="hidden" id="attributes" name="attributes"
+        value="@Html.Raw(ViewData["Attributes"])" />*@
+
+    </form>
+
+@section Scripts{
+    <script type="text/javascript">
+        // TODO:
+        //  - Move this to .js file?
+
+        var merchHierarchy;
+        var selectedBrand;
+        var divisionsHierarchy;
+        var reportStartTime;
+        var AllselectedSubClasses;
+        var firstPageLoad = true;
+        // Run when page has finished loading
+        //$(document).ready(function () {
+        //    //$("#IncludeDrilldown").val("0");
+        //    // Load data from ViewData into variable
+        //    merchHierarchy = JSON.parse($("#merchHierarchy").val());
+
+        //    // console.log(merchHierarchy);
+
+        //    // jQuery Validation
+        //    $("#ccCountForm").validate({
+        //        rules: {
+        //            SelectedDivisionIds: {
+        //                required: true
+        //            },
+        //            SelectedDepartmentIds: {
+        //                required: true
+        //            }
+        //        },
+        //        messages: {
+        //            SelectedDivisionIds: {
+        //                required: "Select at least one DIVISION"
+        //            },
+        //            SelectedDepartmentIds: {
+        //                required: "Select at least one DEPARTMENT"
+        //            }
+        //        },
+        //        errorPlacement: function (error, element) {
+        //            error.insertAfter(element);
+        //        },
+        //        submitHandler: function (form) {
+
+        //            // This section runs *after* jQuery validate determines
+        //            // everything is valid.
+
+        //            // *****************
+        //            //   - This should probably be implemented in .addMethod
+        //            //     but wasn't able to get it working
+        //            //   - Used in conjunction with $(':checkbox').change()
+        //            // *****************
+        //            if (!validateMarkets())
+        //                return false;
+
+        //            // Submit form
+        //            return true;
+        //        }
+        //    });
+
+        //    // Check if hierarchy model is valid
+        //    if ($("#ErrorCode").val() == -1) {
+        //        // Error alert
+        //        updateResponseAlert('fail', '[' + getTimestamp() + '] Error loading setup data: ' + $("#ErrorMessage").val() + ' -- Please refresh page to try again.');
+        //    }
+
+        //    // Trigger .change event after first page load
+        //    $("#SelectedBrandId").trigger("change");
+        //    firstPageLoad = false;
+        //});
+
+
+
+        // Toggle submitt button and cursor
+        function waitingForReport(shouldDisable) {
+
+            // Submit button
+            $("#btnSubmit").prop("disabled", shouldDisable);
+
+            // Cursor and anything else
+            if (shouldDisable) {
+                $("body,select,input,a,label").css("cursor", "wait");
+            } else {
+                $("body,select,input,a,label").css("cursor", "default");
+            }
+        };
+
+        // Get selected brand index or name from id
+        //  Usage: getSelectedBrand('Index')
+        ////         getSelectedBrand('Name')
+        //function getSelectedBrand(indexOrName) {
+        //    for (var i = 0; i < merchHierarchy.length; i++) {
+        //        if (merchHierarchy[i].Value == selectedBrand) {
+        //            if (indexOrName.toUpperCase() == 'INDEX')
+        //                return i.toString();
+        //            else if (indexOrName.toUpperCase() == 'NAME')
+        //                return merchHierarchy[i].Name;
+        //            else
+        //                return 'Error: Incorrect parameter';
+        //        }
+        //    }
+
+            // Error?
+        //    return -1;
+        //}
+
+        function formAjaxBegin() {
+            // Disable button and change cursor to busy
+            waitingForReport(true);
+            // $("#SelectedClassIds").change();
+            // Set timestamp
+            reportStartTime = new Date();
+
+            // Create alert
+            updateResponseAlert('info', '[' + reportStartTime.toLocaleString() + '] Generating report...');
+        };
+
+        function formAjaxComplete() {
+            // Re-enable button and revert cursor
+            waitingForReport(false);
+        };
+
+        function formAjaxSuccess(data) {
+            //  - Call 'Download' action with the response parameters
+            //  - The controller action will download the report
+            //    from the TempData session variable
+            //  - Upon completion this marks the end of the application process
+            //    and the UI can be used again
+            $.ajax({
+                url: '/Home/Download?guid=' + data.guid + '&filename=' + data.filename + '&contentType=' + data.contentType + '&connectionGuid=' + data.connectionGuid + '&initialCheck=true',
+                type: 'GET',
+                success: function (result) {
+                    window.location = '/Home/Download?guid=' +
+                        data.guid +
+                        '&filename=' +
+                        data.filename +
+                        '&contentType=' +
+                        data.contentType +
+                        '&connectionGuid=' +
+                        data.connectionGuid;
+
+                    // Success alert
+                    updateResponseAlert('success',
+                        '[' +
+                        getTimestamp() +
+                        '] Report generated! File available in download toolbar and default browser download directory. (Elapsed time: ' +
+                        getTimeElapsed(reportStartTime) +
+                        ')');
+                },
+                error: function (error) {
+                    
+                    formAjaxFailure(error);
+                }
+            });
+        };
+
+        function formAjaxFailure(jqXHR, textStatus, errorThrown) {
+            updateResponseAlert(errorThrown, '[' + getTimestamp() + '] ' + jqXHR.responseText + ' (Elapsed time: ' + getTimeElapsed(reportStartTime) + ')');
+        };
+
+        function getTimestamp() {
+            return new Date().toLocaleString();
+        };
+
+        function getTimeElapsed(startTime) {
+            var timeDiff = new Date() - reportStartTime;
+
+            // Remove ms
+            timeDiff /= 1000;
+
+            var seconds = Math.round(timeDiff % 60);
+
+            // Remove s
+            timeDiff = Math.floor(timeDiff / 60);
+
+            var minutes = Math.round(timeDiff % 60);
+
+            // Return mm:ss
+            return pad(minutes, 2) + ":" + pad(seconds, 2);
+        };
+
+        // Function for padding zeroes
+        function pad(n, width, z) {
+            z = z || '0';
+            n = n + '';
+            return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+        };
+
+        //function validateMarkets() {
+
+        //    var i = $('#SelectedBrandId').val();
+        //    var ct = 0;
+        //    var fr = 0;
+
+        //    // Count how many markets are selected
+        //    $('#brands_' + i.toString() + '_markets input[type=checkbox]').each(function () {
+        //        if ($(this).is(':checked')) {
+        //            ct++;
+        //            if (this.nextSibling.nextSibling.innerHTML == 'FRANCHISE') {
+        //                fr = 1
+        //            }
+        //        }
+        //    });
+
+        //    if (ct == 1 && fr == 1) {
+        //        //disable channel
+        //        SelectedChannelId[0].checked = "checked";
+        //        SelectedChannelId[0].disabled = true;
+        //        SelectedChannelId[1].disabled = true;
+        //        SelectedChannelId[2].disabled = true;
+        //    }
+        //    else {
+        //        SelectedChannelId[0].disabled = false;
+        //        SelectedChannelId[1].disabled = false;
+        //        SelectedChannelId[2].disabled = false;
+        //    }
+
+        //    // Return:
+        //    //  - true:  At least one market is selected
+        //    //  - false: No markets are selected
+        //    if (ct < 1) {
+        //        $('#marketsContainer').addClass("error");
+        //        $('#markets-error').removeClass("markets-valid");
+        //        $('#markets-error').addClass("markets-error");
+        //        $('#marketchangeindicator').addClass("marketchangeindicator");
+        //        $('#marketchangeindicator').removeClass("markets-valid");
+
+        //        return false;
+        //    } else {
+        //        $('#marketsContainer').removeClass("error");
+        //        $('#markets-error').removeClass("markets-error");
+        //        $('#markets-error').addClass("markets-valid");
+        //        $('#marketchangeindicator').removeClass("marketchangeindicator");
+        //        $('#marketchangeindicator').addClass("marketchangeindicator-none");
+
+
+        //        return true;
+        //    }
+        //};
+        function updateResponseAlert(alertType, message) {
+
+            // Clear alerts container
+            $("#alertsContainer").empty()
+                                 .append("<div id='responseAlert' class='alert alert-dismissable'></div>");
+
+            var $myAlert = $("#responseAlert");
+
+            if (alertType == 'fail') {
+                $myAlert.addClass("alert-danger");
+            } else if (alertType == 'info') {
+                $myAlert.addClass("alert-info");
+            } else if (alertType == 'success') {
+                $myAlert.addClass("alert-success")
+            }
+
+            // Set alert message
+            $myAlert.append("<normal>" + message + "</normal>");
+
+            // Allows alert to be dismissable
+            $myAlert.append("<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>");
+
+        };
+
+        // Get Brand ID -> Populate Divisions
+        //$("#SelectedBrandId").change(function () {
+        //    // Set currently selected brand
+        //    selectedBrand = $("#SelectedBrandId").val();
+
+        //    // IF ON Selected, Disable LY Actuals
+        //    if (!firstPageLoad){
+        //        if ($("#SelectedBrandId").val() == "3") {
+        //            SelectedComparisonCountProxyId[0].checked = "checked"
+        //            SelectedComparisonCountProxyId[1].disabled = true
+        //        }
+        //        else {
+        //            SelectedComparisonCountProxyId[1].disabled = false
+        //        }
+        //    }
+
+        //    // Set selected brand
+        //    $("#SelectedBrandIndex").val(getSelectedBrand('Index'));
+        //    $("#SelectedBrandName").val(getSelectedBrand('Name'));
+
+        //    /* Markets */
+        //    $('[name="market_checkboxes"]').each(function (index) {
+        //        // If id property includes the brand value, then show
+        //        if ($(this).attr("id").indexOf(selectedBrand.toString()) >= 0) {
+        //            $(this).show();
+        //        } else {
+        //            $(this).hide();
+        //        }
+        //    });
+
+        //    /* Channels and Attributes */
+
+        //    // Clear div
+        //    $("#channelsContainer").empty();
+        //    $("#SelectedAttributeId1").empty();
+        //    $("#SelectedAttributeId2").empty();
+
+
+
+        //    for (var i = 0; i < merchHierarchy.length; i++) {
+        //        // Find selected brand
+        //        if (merchHierarchy[i].Value == selectedBrand) {
+
+        //            // Update channels
+        //            for (var j = 0; j < merchHierarchy[i].Channels.length; j++) {
+        //                $("#channelsContainer").append("<label>" +
+        //                        "<input value='" + merchHierarchy[i].Channels[j].Value + "' type='radio' " +
+        //                               "id='SelectedChannelId' name='SelectedChannelId' /> " +
+        //                                merchHierarchy[i].Channels[j].Name.toUpperCase() +
+        //                    "</label><br />");
+        //            }
+
+        //            // Check index 0 item to checked.  DOM can't see jQuery object
+        //            $("#SelectedChannelId")[0].checked = true;
+
+        //            // Update attributes
+        //            $("#SelectedAttributeId1").append("<option selected value='-1'>Select Attribute (optional)</option>");
+        //            $("#SelectedAttributeId2").append("<option selected value='-1'>Select Attribute (optional)</option>");
+        //            merchHierarchy[i].Attribute2 = merchHierarchy[i].Attribute2.sort(function (a, b) {
+        //                return a.Name.localeCompare(b.Name);
+        //            });
+
+        //            for (var j = 0; j < merchHierarchy[i].Attribute2.length; j++) {
+        //                $("#SelectedAttributeId1").append("<option value='" + merchHierarchy[i].Attribute2[j].Name + "'>" +
+        //                                                           merchHierarchy[i].Attribute2[j].Name +
+        //                                                           "</option>");
+        //            }
+
+        //            merchHierarchy[i].Attribute1 = merchHierarchy[i].Attribute1.sort(function (a, b) {
+        //                return a.Name.localeCompare(b.Name);
+        //            });
+
+        //            for (var j = 0; j < merchHierarchy[i].Attribute1.length; j++) {
+        //                $("#SelectedAttributeId2").append("<option value='" + merchHierarchy[i].Attribute1[j].Name + "'>" +
+        //                                                           merchHierarchy[i].Attribute1[j].Name +
+        //                                                           "</option>");
+        //            }
+
+        //            // Update pivots
+        //            $('#timeOnOfferPivot')
+        //                .prop('checked', false)
+        //                .prop('disabled', !merchHierarchy[i].IsTimeOnOfferEnabled);
+        //            $('#rankPivot')
+        //                .prop('checked', false)
+        //                .prop('disabled', !merchHierarchy[i].IsRankEnabled);
+        //            $('#seasonCodePivot')
+        //                .prop('checked', false)
+        //                .prop('disabled', !merchHierarchy[i].IsSeasonCodeEnabled);
+        //        }
+        //    }
+
+        //    /* Division/Department/Class Hierarchy */
+        //    validateMarkets();
+
+        //    // Clear Division listbox, trigger update
+        //    $("#SelectedDivisionIds").empty();
+        //    $("#SelectedDivisionIds").trigger("change");
+
+        //    // Find selected brand
+        //    for (var i = 0; i < merchHierarchy.length; i++) {
+        //        if (merchHierarchy[i].Value == selectedBrand) {
+
+        //            // Clear box
+        //            $("#SelectedDivisionIds").empty();
+
+        //            // Set divisions object
+        //            divisionsHierarchy = merchHierarchy[i].Divisions;
+
+        //            // Add Division options for selected Brand
+        //            for (var j = 0; j < merchHierarchy[i].Divisions.length; j++) {
+        //                $("#SelectedDivisionIds").append("<option value='" + merchHierarchy[i].Divisions[j].Value + "'>" +
+        //                                                 merchHierarchy[i].Divisions[j].Value + ' - ' +
+        //                                                 merchHierarchy[i].Divisions[j].Name +
+        //                                                 "</option>");
+        //            }
+
+        //            // Return after brand has been found, since only 1
+        //            return;
+        //        }
+        //    }
+        //});
+
+    </script>}
