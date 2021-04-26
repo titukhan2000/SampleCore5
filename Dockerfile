@@ -9,7 +9,7 @@ RUN ls -ltr
 # Copy everything else and build
 #COPY ../engine/examples ./
 RUN dotnet build CCCount_DotNet5.sln
-RUN cd CCCount_DotNet5
+RUN cd ./CCCount_DotNet5
 RUN ls -ltr
 # Build runtime image
 #FROM mcr.microsoft.com/dotnet/aspnet:3.1
