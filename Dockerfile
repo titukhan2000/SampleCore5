@@ -20,7 +20,7 @@ RUN dotnet publish /src -c Release -o /application/publish
 FROM runtime-env AS finalimage
 WORKDIR /application
 COPY --from=publish /application/publish .
-RUN pwd
+RUN cd /application/publish
 RUN ls -ltr
 ENTRYPOINT ["dotnet", "CCCount_DotNet5.dll"]
 
