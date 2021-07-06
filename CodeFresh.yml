@@ -14,7 +14,19 @@ steps:
     working_directory: '${{clone}}'
     tag: master
     disable_push: true
-    dockerfile: Dockerfile  
+    dockerfile: Dockerfile
+  push_to_my_registry:
+    type: parallel
+    stage: push
+    steps:
+      pushing_to_docker:
+        type: push
+        title: Pushing to a registry
+        candidate: '${{build_my_app}}'
+        tag: v1.0.0
+        registry: CodeFreshRegistry
+        image_name: devilsdocker/cccount
 stages:
   - clone
   - build
+  - push
