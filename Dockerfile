@@ -1,19 +1,22 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
-WORKDIR /app
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS runtime-env
+WORKDIR /application
+EXPOSE 80
 
-# Copy csproj and restore as distinct layers
-COPY . /app
+FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build-env
+WORKDIR /src
+COPY . /src
 RUN ls -ltr
-#RUN dotnet restore
-
-# Copy everything else and build
-#COPY ../engine/examples ./
+RUN dotnet restore
+COPY . .
 RUN dotnet build CCCount_DotNet5.sln
 RUN cd ./CCCount_DotNet5
 RUN ls -ltr
-# Build runtime image
-#FROM mcr.microsoft.com/dotnet/aspnet:3.1
-#WORKDIR /app
-#COPY --from=build-env /app/out .
-#ENTRYPOINT ["dotnet", "aspnetapp.dll"]
+
+FROM build-env AS publish
+COPY dotnet publish ./CCCount_DotNet5 -c Release -o /application/publish
+
+FROM runtime-env AS finalimage
+WORKDIR /application
+COPY --from=build-env /application/publish .
+ENTRYPOINT ["dotnet", "CCCount_DotNet5.dll"]
 
