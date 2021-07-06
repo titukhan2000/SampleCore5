@@ -9,15 +9,13 @@ RUN ls -ltr
 RUN dotnet restore
 COPY . .
 RUN dotnet build CCCount_DotNet5.sln
-RUN cd CCCount_DotNet
 RUN pwd
 RUN ls -ltr
 
 FROM build-env AS publish
-RUN cd /src/CCCount_DotNet5
 RUN pwd
 RUN ls -ltr
-RUN dotnet publish /src/SampleCore5/CCCount_DotNet5/bin/Release/net5.0/CCCount_DotNet5.dll -c Release -o /application/publish
+RUN dotnet publish /src/CCCount_DotNet5/bin/Debug/net5.0/CCCount_DotNet5.dll -c Release -o /application/publish
 
 FROM runtime-env AS finalimage
 WORKDIR /application
