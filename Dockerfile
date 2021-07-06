@@ -13,7 +13,7 @@ RUN cd ./CCCount_DotNet5
 RUN ls -ltr
 
 FROM build-env AS publish
-COPY dotnet publish ./CCCount_DotNet5 -c Release -o /application/publish
+RUN dotnet publish ./CCCount_DotNet5 -c Release -o /application/publish
 
 FROM runtime-env AS finalimage
 WORKDIR /application
