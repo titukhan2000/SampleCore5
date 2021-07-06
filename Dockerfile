@@ -12,15 +12,11 @@ RUN dotnet build CCCount_DotNet5.sln
 RUN pwd
 RUN ls -ltr
 
-FROM build-env AS publish
-RUN pwd
-RUN ls -ltr
+FROM build-env AS publish-dlls
 RUN dotnet publish /src -c Release -o /application/publish
 
 FROM runtime-env AS finalimage
 WORKDIR /application
-COPY --from=publish /application/publish .
-RUN cd /application/publish
-RUN ls -ltr
+COPY --from=publish-dlls /application/publish .
 ENTRYPOINT ["dotnet", "CCCount_DotNet5.dll"]
 
