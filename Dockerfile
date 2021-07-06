@@ -15,7 +15,7 @@ RUN ls -ltr
 FROM build-env AS publish
 RUN pwd
 RUN ls -ltr
-RUN dotnet publish /src/CCCount_DotNet5/bin/Debug/net5.0/CCCount_DotNet5.dll -c Release -o /application/publish
+RUN dotnet publish /src -c Release -o /application/publish
 
 FROM runtime-env AS finalimage
 WORKDIR /application
