@@ -4,7 +4,7 @@ steps:
     title: Cloning repository
     type: git-clone
     repo: 'https://github.com/titukhan2000/SampleCore5'
-    revision: main
+    revision: dockerfile-change
     stage: clone
   build_my_app:
     title: Net5 Image
