@@ -43,6 +43,7 @@ namespace CCCount.Controllers
         private int startFieldPosition = 22;
         private int numberOfColumnsAfterData = 12;
         public string HeaderFieldNames;
+        public string codeChange="true";
 
         public HomeController(ICCCountUI ccCountUI,
                               IOptions<ConnectionStrings> connectionStrings,
@@ -66,6 +67,7 @@ namespace CCCount.Controllers
         }
         bool validateLogin(string applicationName) {
             bool Result = false;
+            //try block starts
             try
             {
 
