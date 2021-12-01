@@ -1,19 +1,11 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
-WORKDIR /app
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine AS base
+WORKDIR /application
+EXPOSE 5000
 
-# Copy csproj and restore as distinct layers
-COPY . /app
-RUN ls -ltr
-#RUN dotnet restore
+ENV ASPNETCORE_URLS=http://*:5000
 
-# Copy everything else and build
-#COPY ../engine/examples ./
-RUN dotnet build CCCount_DotNet5.sln
-RUN cd ./CCCount_DotNet5
-RUN ls -ltr
-# Build runtime image
-#FROM mcr.microsoft.com/dotnet/aspnet:3.1
-#WORKDIR /app
-#COPY --from=build-env /app/out .
-#ENTRYPOINT ["dotnet", "aspnetapp.dll"]
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
 
+COPY ./publish .
+ENTRYPOINT ["dotnet", "CCCount_DotNet5.dll"]
