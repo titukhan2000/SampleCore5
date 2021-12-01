@@ -1,20 +1,50 @@
-version: '1.0'
+# More examples of Codefresh YAML can be found at
+# https://codefresh.io/docs/docs/yaml-examples/examples/
+#5bcdc64f92ea48b8a5dae5b1ea7afcc1fea14d10
+
+version: "1.0"
+# Stages can help you organize your steps in stages
+stages:
+  - "clone"
+  - "compile"
+  - "build"
+  - "scan"
+
 steps:
   clone:
-    title: Cloning repository
-    type: git-clone
-    repo: 'https://github.com/titukhan2000/SampleCore5'
-    revision: main
-    stage: clone
-  build_my_app:
-    title: Net5 Image
-    type: build
-    stage: build
-    image_name: CCountNet
-    working_directory: '${{clone}}'
-    tag: master
+    title: "Cloning repository"
+    type: "git-clone"
+    repo: "titukhan2000/SampleCore5"
+    # CF_BRANCH value is auto set when pipeline is triggered
+    # Learn more at codefresh.io/docs/docs/codefresh-yaml/variables/
+    revision: "${{CF_BRANCH}}"
+    git: "github"
+    stage: "clone"
+  compile_app:
+     title: "Compile application code"
+     stage: "compile"
+     working_directory: "${{clone}}"
+     image: "mcr.microsoft.com/dotnet/sdk:5.0-buster-slim"
+     commands:      
+       - echo "build dotnet here"
+       - apt-get update && apt-get dist-upgrade -y && apt-get install -y openjdk-11-jre
+       - dotnet tool install --global dotnet-sonarscanner --version 5.4
+       - dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.12
+       - PATH="${PATH}:/root/.dotnet/tools"
+       - dotnet sonarscanner begin /o:"titukhan2000" /k:"SampleCore5" /d:sonar.login="5bcdc64f92ea48b8a5dae5b1ea7afcc1fea14d10" /d:sonar.host.url="https://sonarcloud.io"
+       - dotnet build CCCount_DotNet5.sln
+       #- dotnet test CCCount_DotNet5.sln --collect:"XPlat Code Coverage" --results-directory ./coverage
+       #- reportgenerator "-reports:./coverage/*/coverage.cobertura.xml" "-targetdir:coverage" "-reporttypes:SonarQube"
+       - dotnet sonarscanner end /d:sonar.login="5bcdc64f92ea48b8a5dae5b1ea7afcc1fea14d10"
+       - mkdir publish
+       - dotnet publish . -c Release -o ./publish 
+       - ls -ltr ./publish
+  build:
+    title: "Building Docker image"
+    type: "build"
+    image_name: "titukhan2000/samplecore5"
+    working_directory: "${{clone}}"
+    tag: "${{CF_BRANCH_TAG_NORMALIZED}}"
+    dockerfile: "Dockerfile"
+    stage: "build"
     disable_push: true
-    dockerfile: Dockerfile  
-stages:
-  - clone
-  - build
